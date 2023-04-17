@@ -12,17 +12,18 @@ public class Operacion {
     public Operacion(){}    
     
     public String operacionCombinada(String cadena){
+        cadena = cadena.replace(" ", "");
         String cadenaOperacion = cadena;
-        
         String aux1 = cadenaOperacion.substring(cadena.indexOf("("),cadena.indexOf(")")+1);
-        System.out.println(aux1);
+        
         
         String aux2 = aux1.substring(aux1.lastIndexOf("(")+1,aux1.lastIndexOf(")"));
-        System.out.println(aux2);
+        
         
         cadenaOperacion = cadenaOperacion.replace(aux1, this.operacionSimple(aux2));
+        cadenaOperacion = cadenaOperacion.replace("--","");
         
-        System.out.println(cadenaOperacion);
+        
         
         return cadenaOperacion;
     }
@@ -54,11 +55,8 @@ public class Operacion {
                 terminosSeparados[i] = terminosSeparadosAux[i + cont];
             }
         }
-       
         
         for (int i = 1; i < terminosSeparados.length; i+=1) {
-
-
             switch (terminosSeparados[i]){
                 case "*":
                     if(terminosSeparados.length>3){
@@ -78,6 +76,24 @@ public class Operacion {
                         terminosSeparados[i-1]="0";
                         break;
                     }
+                case "*-":
+                    if(terminosSeparados.length>3){
+                        terminosSeparados[i+1]=String.valueOf(Double.parseDouble(terminosSeparados[i-1])*Double.parseDouble(terminosSeparados[i+1]));
+                        if(terminosSeparados[i-2].equals("-")){
+                            terminosSeparados[i]="+";
+                        } else{
+                            terminosSeparados[i]="-";
+                        }
+                        terminosSeparados[i-1]="0";
+                        break;
+
+
+                    } else{
+                        terminosSeparados[i+1]=String.valueOf(Double.parseDouble(terminosSeparados[i-1])*Double.parseDouble(terminosSeparados[i+1]));
+                        terminosSeparados[i]="-";
+                        terminosSeparados[i-1]="0";
+                        break;
+                    }
                 case "/":
                     if(terminosSeparados.length>3){
                         terminosSeparados[i+1]=String.valueOf(Double.parseDouble(terminosSeparados[i-1])/Double.parseDouble(terminosSeparados[i+1]));
@@ -93,6 +109,24 @@ public class Operacion {
                     } else{
                         terminosSeparados[i+1]=String.valueOf(Double.parseDouble(terminosSeparados[i-1])/Double.parseDouble(terminosSeparados[i+1]));
                         terminosSeparados[i]="+";
+                        terminosSeparados[i-1]="0";
+                        break;
+                    }
+                case "/-":
+                    if(terminosSeparados.length>3){
+                        terminosSeparados[i+1]=String.valueOf(Double.parseDouble(terminosSeparados[i-1])/Double.parseDouble(terminosSeparados[i+1]));
+                        if(terminosSeparados[i-2].equals("-")){
+                            terminosSeparados[i]="+";
+                        } else{
+                            terminosSeparados[i]="-";
+                        }
+                        terminosSeparados[i-1]="0";
+                        break;
+
+
+                    } else{
+                        terminosSeparados[i+1]=String.valueOf(Double.parseDouble(terminosSeparados[i-1])/Double.parseDouble(terminosSeparados[i+1]));
+                        terminosSeparados[i]="-";
                         terminosSeparados[i-1]="0";
                         break;
                     }
